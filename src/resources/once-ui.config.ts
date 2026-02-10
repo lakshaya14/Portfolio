@@ -33,7 +33,7 @@ const protectedRoutes: ProtectedRoutesConfig = {
   "/work/automate-design-handovers-with-a-figma-to-code-pipeline": true,
 };
 
-import { Inter, Roboto_Mono } from "@next/font/google";
+import { Inter, Roboto_Mono } from "next/font/google";
 
 export const geistSans = Inter({
   subsets: ["latin"],
@@ -203,7 +203,6 @@ const sameAs: SameAsConfig = {
   discord: "https://discord.com/invite/5EyAQ4eNdS",
 };
 
-// social sharing configuration for blog posts
 const socialSharing: SocialSharingConfig = {
   display: true,
   platforms: {
