@@ -1,4 +1,4 @@
-import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
+import { About, Home, Newsletter, Person, Social, Work } from "@/types";
 
 const person: Person = {
   firstName: "Lakshaya",
@@ -6,9 +6,10 @@ const person: Person = {
   name: "Lakshaya K",
   role: "Software Developer",
   email: "lakshayakarun11@gmail.com",
-  location: "Asia/Kolkata",
+  //location: "Asia/Kolkata",
   languages: ["English", "Tamil"],
   avatar: "/images/lakshaya.jpg",
+  location: "WET"
 };
 
 /* ===================== NEWSLETTER ===================== */
