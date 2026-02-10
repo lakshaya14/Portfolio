@@ -1,6 +1,8 @@
 import "@once-ui-system/core/css/styles.css";
 import "@once-ui-system/core/css/tokens.css";
 import "@/resources/custom.css";
+import StarBackground from "@/components/background/StarBackground";
+
 
 import classNames from "classnames";
 
@@ -16,13 +18,16 @@ import {
 import { Footer, Header, RouteGuard, Providers } from "@/components";
 import { baseURL, effects, fonts, style, dataStyle, home } from "@/resources";
 
+import "./globals.css";
+
+
 export async function generateMetadata() {
   return Meta.generate({
     title: home.title,
     description: home.description,
     baseURL: baseURL,
     path: home.path,
-    image: home.image,
+    //image: home.image,
   });
 }
 
@@ -103,6 +108,7 @@ export default async function RootLayout({
           }}
         />
       </head>
+      
       <Providers>
         <Column
           as="body"

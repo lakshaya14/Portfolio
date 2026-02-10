@@ -2,129 +2,510 @@ import {
   Heading,
   Text,
   Button,
-  Avatar,
   RevealFx,
   Column,
-  Badge,
   Row,
   Schema,
   Meta,
   Line,
 } from "@once-ui-system/core";
-import { home, about, person, baseURL, routes } from "@/resources";
+
+import { home, person, baseURL } from "@/resources";
+import { Github, Linkedin, Mail } from "lucide-react";
+
 import { Mailchimp } from "@/components";
 import { Projects } from "@/components/work/Projects";
-import { Posts } from "@/components/blog/Posts";
+import StarBackground from "@/components/background/StarBackground";
+
+/* ---------------- SEO METADATA ---------------- */
 
 export async function generateMetadata() {
   return Meta.generate({
     title: home.title,
     description: home.description,
-    baseURL: baseURL,
+    baseURL,
     path: home.path,
-    image: home.image,
   });
 }
 
+/* ---------------- HOME PAGE ---------------- */
+
 export default function Home() {
+  const iconStyle = {
+    width: "46px",
+    height: "46px",
+    borderRadius: "999px",
+    padding: 0,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  };
+  
   return (
-    <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
-      <Schema
-        as="webPage"
-        baseURL={baseURL}
-        path={home.path}
-        title={home.title}
-        description={home.description}
-        image={`/api/og/generate?title=${encodeURIComponent(home.title)}`}
-        author={{
-          name: person.name,
-          url: `${baseURL}${about.path}`,
-          image: `${baseURL}${person.avatar}`,
+    <>
+      {/* ⭐ Animated Background */}
+      <StarBackground />
+
+      {/* ⭐ Content Layer */}
+      <Column
+        maxWidth="m"
+        gap="xl"
+        horizontal="center"
+        style={{
+          position: "relative",
+          zIndex: 1,
+          minHeight: "100vh",
+          display: "flex",
+          justifyContent: "center",
         }}
-      />
-      <Column fillWidth horizontal="center" gap="m">
-        <Column maxWidth="s" horizontal="center" align="center">
-          {home.featured.display && (
-            <RevealFx
-              fillWidth
-              horizontal="center"
-              paddingTop="16"
-              paddingBottom="32"
-              paddingLeft="12"
-            >
-              <Badge
-                background="brand-alpha-weak"
-                paddingX="12"
-                paddingY="4"
-                onBackground="neutral-strong"
-                textVariant="label-default-s"
-                arrow={false}
-                href={home.featured.href}
+      >
+        {/* -------- Structured Data -------- */}
+        <Schema
+          as="webPage"
+          baseURL={baseURL}
+          path={home.path}
+          title={home.title}
+          description={home.description}
+          image={`/api/og/generate?title=${encodeURIComponent(home.title)}`}
+          author={{
+            name: person.name,
+            url: `${baseURL}/about`,
+            image: `${baseURL}${person.avatar}`,
+          }}
+        />
+
+        {/* ================= HERO ================= */}
+        <Column
+  fillWidth
+  horizontal="center"
+  style={{
+    minHeight: "100vh",   // ✅ covers full screen
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  }}
+>
+  <Column
+    maxWidth="s"
+    gap="l"
+    fillWidth
+    horizontal="center"
+    style={{
+      textAlign: "center",
+      alignItems: "center",
+    }}
+  >
+    {/* HELLO I'M */}
+    <RevealFx delay={0.05} translateY={10}>
+      <Text
+        variant="label-default-s"
+        onBackground="neutral-weak"
+        style={{
+          letterSpacing: "0.25em",
+          textTransform: "uppercase",
+          textAlign: "center",
+          width: "100%",
+        }}
+      >
+        {home.hero?.topText ?? "HELLO, I'M"}
+      </Text>
+    </RevealFx>
+
+    {/* BIG NAME */}
+    <RevealFx delay={0.12} translateY={12}>
+      <Heading
+        variant="display-strong-xl"
+        wrap="balance"
+        style={{
+          lineHeight: 1,
+          textAlign: "center",
+          width: "100%",
+        }}
+      >
+        {home.hero?.headline ?? person.name}
+      </Heading>
+    </RevealFx>
+
+    {/* ROLE */}
+    <RevealFx delay={0.2} translateY={10}>
+      <Text
+        variant="heading-default-xl"
+        onBackground="neutral-strong"
+        style={{
+          fontWeight: 600,
+          fontSize: "28px",
+          textAlign: "center",
+          width: "100%",
+        }}
+      >
+        {home.hero?.role ?? person.role}
+      </Text>
+    </RevealFx>
+
+
+            {/* TAGLINE */}
+            <RevealFx delay={0.3} translateY={12}>
+              <Text
+                variant="body-default-l"
+                onBackground="neutral-weak"
+                wrap="balance"
+                align="center"
+                style={{
+                  maxWidth: "520px",
+                  width: "100%",
+                  textAlign: "center",
+                  margin: "0 auto",
+                }}
+                
               >
-                <Row paddingY="2">{home.featured.title}</Row>
-              </Badge>
+                {home.hero?.tagline ??
+                  "Building clean, responsive, and high-performance web experiences"}
+              </Text>
             </RevealFx>
-          )}
-          <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="16">
-            <Heading wrap="balance" variant="display-strong-l">
-              {home.headline}
-            </Heading>
-          </RevealFx>
-          <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="32">
-            <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-xl">
-              {home.subline}
-            </Text>
-          </RevealFx>
-          <RevealFx paddingTop="12" delay={0.4} horizontal="center" paddingLeft="12">
-            <Button
-              id="about"
-              data-border="rounded"
-              href={about.path}
-              variant="secondary"
-              size="m"
-              weight="default"
-              arrowIcon
+
+            {/* CTA BUTTONS */}
+            <RevealFx delay={0.4} translateY={10}>
+              <Column gap="12" fillWidth horizontal="center">
+              <Button
+  variant="primary"
+  size="l"
+  href={home.cta.primary.href}
+>
+  {home.cta.primary.label}
+</Button>
+
+
+                <Button
+                  variant="secondary"
+                  size="l"
+                  href={home.cta.secondary.href}
+                  target="_blank"
+                  style={{
+                    width: "100%",
+                    maxWidth: "320px",
+                    borderRadius: "999px",
+                  }}
+                >
+                  {home.cta.secondary.label}
+                </Button>
+              </Column>
+            </RevealFx>
+
+            {/* SOCIAL ICONS – GLOW */}
+{/* SOCIAL ICONS */}
+<RevealFx delay={0.55} translateY={8}>
+  <Row
+    fillWidth
+    horizontal="center"
+    vertical="center"
+    paddingTop="16"
+    style={{
+      justifyContent: "center",
+    }}
+  >
+    <Row gap="20">
+      <Button
+        variant="secondary"
+        size="s"
+        href="https://github.com/lakshaya14"
+        target="_blank"
+        aria-label="GitHub"
+        style={iconStyle}
+      >
+        <Github size={20} />
+      </Button>
+
+      <Button
+        variant="secondary"
+        size="s"
+        href="https://www.linkedin.com/in/lakshaya-k-5a534b2a4/"
+        target="_blank"
+        aria-label="LinkedIn"
+        style={iconStyle}
+      >
+        <Linkedin size={20} />
+      </Button>
+
+      <Button
+        variant="secondary"
+        size="s"
+        href={`mailto:${person.email}`}
+        aria-label="Email"
+        style={iconStyle}
+      >
+        <Mail size={20} />
+      </Button>
+    </Row>
+  </Row>
+</RevealFx>
+
+
+            {/* SCROLL */}
+            <RevealFx delay={0.7}>
+              <Text
+                paddingTop="32"
+                onBackground="neutral-weak"
+                variant="label-default-s"
+                style={{
+                  textAlign: "center",
+                  width: "100%",
+                }}
+              >
+                ↓ Scroll
+              </Text>
+            </RevealFx>
+          </Column>
+        </Column>
+                {/* ================= TECHNOLOGIES ================= */}
+                <RevealFx delay={0.8} translateY={16}>
+          <Column
+            gap="xl"
+            fillWidth
+            horizontal="center"
+            style={{
+              paddingTop: "120px",
+              paddingBottom: "120px",
+              textAlign: "center",
+            }}
+          >
+            {/* Subtitle */}
+            <Text
+              variant="label-default-s"
+              onBackground="neutral-weak"
+              style={{ letterSpacing: "0.2em", textTransform: "uppercase" }}
             >
-              <Row gap="8" vertical="center" paddingRight="4">
-                {about.avatar.display && (
-                  <Avatar
-                    marginRight="8"
-                    style={{ marginLeft: "-0.75rem" }}
-                    src={person.avatar}
-                    size="m"
-                  />
-                )}
-                {about.title}
-              </Row>
-            </Button>
-          </RevealFx>
-        </Column>
-      </Column>
-      <RevealFx translateY="16" delay={0.6}>
-        <Projects range={[1, 1]} />
-      </RevealFx>
-      {routes["/blog"] && (
-        <Column fillWidth gap="24" marginBottom="l">
-          <Row fillWidth paddingRight="64">
-            <Line maxWidth={48} />
-          </Row>
-          <Row fillWidth gap="24" marginTop="40" s={{ direction: "column" }}>
-            <Row flex={1} paddingLeft="l" paddingTop="24">
-              <Heading as="h2" variant="display-strong-xs" wrap="balance">
-                Latest from the blog
-              </Heading>
+              Technologies I work with
+            </Text>
+
+            {/* Title */}
+            <Heading as="h2" variant="display-strong-s">
+              Skills & Tools
+            </Heading>
+
+            {/* Toggle (UI only for now) */}
+            <Row
+              gap="8"
+              horizontal="center"
+              style={{
+                background: "rgba(255,255,255,0.04)",
+                padding: "6px",
+                borderRadius: "999px",
+              }}
+            >
+              <Button variant="primary" size="s">
+                Skills
+              </Button>
+              <Button variant="secondary" size="s">
+                Tools
+              </Button>
             </Row>
-            <Row flex={3} paddingX="20">
-              <Posts range={[1, 2]} columns="2" />
+
+            {/* Grid */}
+            <Row
+              gap="16"
+              wrap
+              horizontal="center"
+              style={{
+                maxWidth: "640px",
+                marginTop: "32px",
+              }}
+            >
+              {[
+                "React",
+                "HTML",
+                "JavaScript",
+                "TypeScript",
+                "Figma",
+                "CSS",
+                "Flutter",
+                "Python",
+                "Java",
+                "Spring Boot",
+                "Next.js",
+                "GitHub",
+                "Tailwind CSS",
+                "MySQL",
+              ].map((skill) => (
+                <Column
+                  key={skill}
+                  horizontal="center"
+                  style={{
+                    width: "140px",
+                    padding: "18px",
+                    borderRadius: "14px",
+                    background: "rgba(255,255,255,0.03)",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                  }}
+                >
+                  <Text variant="body-default-s">{skill}</Text>
+                </Column>
+              ))}
             </Row>
-          </Row>
-          <Row fillWidth paddingLeft="64" horizontal="end">
-            <Line maxWidth={48} />
-          </Row>
+          </Column>
+        </RevealFx>
+
+
+        {/* ================= FEATURED PROJECT ================= */}
+        <RevealFx delay={0.85} translateY={18}>
+          <Column gap="l" fillWidth>
+            <Row fillWidth paddingRight="64">
+              <Line maxWidth={48} />
+            </Row>
+
+            <Heading as="h2" variant="display-strong-s">
+              Featured Project
+            </Heading>
+
+            <Projects range={[1, 1]} />
+
+            <Row fillWidth paddingLeft="64" horizontal="end">
+              <Line maxWidth={48} />
+            </Row>
+          </Column>
+        </RevealFx>
+
+        {/* ================= MORE PROJECTS ================= */}
+        <RevealFx delay={1} translateY={18}>
+          <Column gap="l" fillWidth>
+            <Heading as="h2" variant="display-strong-s">
+              More Projects
+            </Heading>
+
+            <Projects range={[2]} />
+          </Column>
+        </RevealFx>
+
+        {/* ================= CONTACT / NEWSLETTER ================= */}
+        <RevealFx delay={1.15} translateY={12}>
+              {/* ================= CONTACT INFO ================= */}
+<RevealFx delay={1.1} translateY={16}>
+<Column
+  id="contact"
+  gap="xl"
+  fillWidth
+  horizontal="center"
+  style={{
+    paddingTop: "120px",
+    paddingBottom: "80px",
+    textAlign: "center",
+  }}
+>
+
+    {/* Title */}
+    <Heading as="h2" variant="display-strong-s">
+      Get In <span style={{ color: "#7c3aed" }}>Touch</span>
+    </Heading>
+
+    {/* Subtitle */}
+    <Text
+      variant="body-default-l"
+      onBackground="neutral-weak"
+      style={{ maxWidth: "620px" }}
+    >
+      Have a project in mind or want to collaborate? Feel free to reach out.
+      I’m always open to discussing new opportunities.
+    </Text>
+
+    {/* Contact Details */}
+    <Column gap="l" fillWidth style={{ maxWidth: "520px" }}>
+      {/* Email */}
+      <Row gap="16" vertical="center">
+        <Column
+          horizontal="center"
+          style={{
+            width: "44px",
+            height: "44px",
+            borderRadius: "999px",
+            background: "rgba(124,58,237,0.15)",
+          }}
+        >
+          <Mail size={20} />
         </Column>
-      )}
-      <Projects range={[2]} />
-      <Mailchimp />
+
+        <Column align="start">
+          <Text variant="label-default-m">Email</Text>
+          <Text onBackground="neutral-weak">
+            lakshayakarun11@gmail.com
+          </Text>
+        </Column>
+      </Row>
+
+      {/* Phone
+      <Row gap="16" vertical="center">
+        <Column
+          horizontal="center"
+          style={{
+            width: "44px",
+            height: "44px",
+            borderRadius: "999px",
+            background: "rgba(124,58,237,0.15)",
+          }}
+        > */}
+          {/* <Text>📞</Text>
+        </Column>
+
+        <Column align="start">
+          <Text variant="label-default-m">Phone</Text>
+          <Text onBackground="neutral-weak">+91 9894927154</Text> */}
+        {/* </Column>
+      </Row> */}
+
+      {/* Location */}
+      <Row gap="16" vertical="center">
+        <Column
+          horizontal="center"
+          style={{
+            width: "44px",
+            height: "44px",
+            borderRadius: "999px",
+            background: "rgba(124,58,237,0.15)",
+          }}
+        >
+          <Text>📍</Text>
+        </Column>
+
+        <Column align="start">
+          <Text variant="label-default-m">Location</Text>
+          <Text onBackground="neutral-weak">
+            Pudukkottai, Tamil Nadu, India
+          </Text>
+        </Column>
+      </Row>
     </Column>
+
+    {/* Socials */}
+    <Column gap="12" paddingTop="32">
+      <Text variant="label-default-s" onBackground="neutral-weak">
+        Connect With Me
+      </Text>
+
+      <Row gap="20" horizontal="center">
+        <Button
+          variant="tertiary"
+          size="s"
+          href="https://www.linkedin.com/in/lakshaya-k-5a534b2a4/"
+          target="_blank"
+        >
+          LinkedIn
+        </Button>
+
+        <Button
+          variant="tertiary"
+          size="s"
+          href="https://github.com/lakshaya14"
+          target="_blank"
+        >
+          GitHub
+        </Button>
+      </Row>
+    </Column>
+  </Column>
+</RevealFx>
+
+          <Mailchimp />
+
+        </RevealFx>
+      </Column>
+    </>
   );
 }

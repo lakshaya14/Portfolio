@@ -165,7 +165,7 @@ export interface About extends BasePageConfig {
       }>;
     }>;
   };
-  /** Studies/education section */
+
   studies: {
     /** Whether to display studies section */
     display: boolean;
@@ -173,10 +173,10 @@ export interface About extends BasePageConfig {
     title: string;
     /** List of institutions attended */
     institutions: Array<{
-      /** Institution name */
       name: string;
-      /** Description of studies */
       description: React.ReactNode;
+      timeframe: string;
+      CGPA?: string;
     }>;
   };
   /** Technical skills section */
