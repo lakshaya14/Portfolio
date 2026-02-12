@@ -33,18 +33,18 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
           return routes[pathname as keyof typeof routes];
         }
 
-        // const dynamicRoutes = ["/blog", "/work"] as const;
-        // for (const route of dynamicRoutes) {
-        //   if (pathname?.startsWith(route) && routes[route]) {
-        //     return true;
-        //   }
-        // }
+         const dynamicRoutes = ["/work"] as const;
+        for (const route of dynamicRoutes) {
+           if (pathname?.startsWith(route) && routes[route]) {
+             return true;
+           }
+         }
 
-        // return false;
-      };``
+         return false;
+      };
 
-      // const routeEnabled = checkRouteEnabled();
-      // setIsRouteEnabled(routeEnabled);
+      const routeEnabled = checkRouteEnabled();
+      setIsRouteEnabled(routeEnabled);
 
       if (protectedRoutes[pathname as keyof typeof protectedRoutes]) {
         setIsPasswordRequired(true);
