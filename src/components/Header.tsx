@@ -13,6 +13,13 @@ type TimeDisplayProps = {
   timeZone: string;
   locale?: string; 
 };
+const navLinks = [
+  { label: "Home", href: "/" },
+  { label: "Work", href: "/work" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+];
+
 
 const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" }) => {
   const [currentTime, setCurrentTime] = useState("");

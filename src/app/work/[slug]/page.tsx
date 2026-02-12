@@ -75,8 +75,8 @@ export default async function Project({
 
   return (
     <Column as="section" maxWidth="m" horizontal="center" gap="l">
-      <Schema
-        as="blogPosting"
+      {/* <Schema
+        //as="blogPosting"
         baseURL={baseURL}
         path={`${work.path}/${post.slug}`}
         title={post.metadata.title}
@@ -91,7 +91,7 @@ export default async function Project({
           url: `${baseURL}${about.path}`,
           image: `${baseURL}${person.avatar}`,
         }}
-      />
+      /> */}
       <Column maxWidth="s" gap="16" horizontal="center" align="center">
         <SmartLink href="/work">
           <Text variant="label-strong-m">Projects</Text>

@@ -41,7 +41,7 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
         // }
 
         // return false;
-      };
+      };``
 
       // const routeEnabled = checkRouteEnabled();
       // setIsRouteEnabled(routeEnabled);
